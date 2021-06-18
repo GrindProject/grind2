@@ -1,9 +1,5 @@
 import 'package:automated_inventory/features/main_inventory/main_inventory_presenter.dart';
-import 'package:automated_inventory/features/main_inventory/main_inventory_viewevents.dart';
 import 'package:flutter/material.dart';
-
-import 'features/main_inventory/main_inventory_bloc.dart';
-import 'features/main_inventory/main_inventory_view.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -13,6 +9,7 @@ void main() {
 
 /*
 class MyApp extends StatefulWidget {
+
   @override
   _State createState() => _State();
 }

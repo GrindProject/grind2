@@ -1,21 +1,28 @@
+import 'package:automated_inventory/framework/model.dart';
 import 'package:automated_inventory/framework/viewmodel.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class MainInventoryViewModel extends ViewModel {
-
-  bool flgProcesing = false;
-
   TextEditingController nameController = TextEditingController();
   TextEditingController expController = TextEditingController();
   TextEditingController measureController = TextEditingController();
-  TextEditingController addedOnController = TextEditingController();
+  Color colorController = Colors.yellow;
 
-  final List<String> names = List.empty(growable: true);
-  final List<String> expiration = List.empty(growable: true);
-  final List<String> measure = List.empty(growable: true);
-  final List<String> addedOn = List.empty(growable: true);
-  final List<int> msgCount = List.empty(growable: true);
+  final List<MainInventoryViewModelItemModel> items = List.empty(growable: true);
+}
 
-  final Color nameColor = Colors.blue;
+class MainInventoryViewModelItemModel extends Model {
+  final String name;
+  final String expirationDate;
+  final String measure;
+
+  final Color color;
+
+  MainInventoryViewModelItemModel(this.name, this.expirationDate, this.measure, this.color);
+
+  String toString() {
+    return '$name $expirationDate $measure';
+  }
 }
