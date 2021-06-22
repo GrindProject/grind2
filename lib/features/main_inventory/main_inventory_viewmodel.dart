@@ -10,17 +10,20 @@ class MainInventoryViewModel extends ViewModel {
   TextEditingController measureController = TextEditingController();
   Color colorController = Colors.yellow;
 
+  final List<MainInventoryViewModelItemModel> cachedItems = List.empty(growable: true);
   final List<MainInventoryViewModelItemModel> items = List.empty(growable: true);
 }
 
 class MainInventoryViewModelItemModel extends Model {
+  final String id;
   final String name;
   final String expirationDate;
   final String measure;
+  final int qty;
 
   final Color color;
 
-  MainInventoryViewModelItemModel(this.name, this.expirationDate, this.measure, this.color);
+  MainInventoryViewModelItemModel(this.id, this.name, this.expirationDate, this.measure, this.color, this.qty);
 
   String toString() {
     return '$name $expirationDate $measure';

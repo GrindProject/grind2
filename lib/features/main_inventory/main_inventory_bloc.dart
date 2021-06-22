@@ -15,18 +15,24 @@ class MainInventoryBloc extends Bloc<MainInventoryViewModel, MainInventoryBlocEv
 
   void _onInitializeView(MainInventoryBlocEvent event) {
     _getItemsFromRepository().then((List<MainInventoryViewModelItemModel> items) {
+      event.viewModel.cachedItems.clear();
+      event.viewModel.cachedItems.addAll(items);
+
       event.viewModel.items.clear();
-      event.viewModel.items.addAll(items);
+      event.viewModel.items.addAll(event.viewModel.cachedItems);
+
       this.pipeOut.send(event.viewModel);
     });
   }
 
   void _addItem(MainInventoryBlocEventAddItem event) {
     event.viewModel.items.add(MainInventoryViewModelItemModel(
+      '',
       event.viewModel.nameController.text,
       event.viewModel.expController.text,
       event.viewModel.measureController.text,
       event.viewModel.colorController,
+      5,
     ));
     this.pipeOut.send(event.viewModel);
   }
@@ -35,28 +41,27 @@ class MainInventoryBloc extends Bloc<MainInventoryViewModel, MainInventoryBlocEv
     /// ???
   }
 
-  Future<List<MainInventoryViewModelItemModel>> _getItemsFromRepository() async {
+  void _applySearchArguments(MainInventoryBlocEvent event) {
+    String searchArgments = '1'; // event.dasdasfd
+    event.viewModel.items.clear();
+    event.viewModel.cachedItems.forEach((item) {
+      if (item.name.contains(searchArgments)) {
+        event.viewModel.items.add(item);
+      }
+    });
+    this.pipeOut.send(event.viewModel);
+  }
 
+  Future<List<MainInventoryViewModelItemModel>> _getItemsFromRepository() async {
     List<MainInventoryViewModelItemModel> listItems = List.empty(growable: true);
 
     List<ProductBusinessModel> products = await _getProductBusinessModelFromRepository();
 
     products.forEach((product) {
-
-      listItems.add(
-
-          MainInventoryViewModelItemModel(
-            product.description,
-            product.expirationDate,
-            product.measure,
-            Colors.blue,
-          ));
-
+      listItems.add(MainInventoryViewModelItemModel(product.id, product.description, product.expirationDate, product.measure, Colors.blue, 5));
     });
 
     return listItems;
-
-
   }
 
   Future<List<ProductBusinessModel>> _getProductBusinessModelFromRepository() async {
@@ -65,12 +70,3 @@ class MainInventoryBloc extends Bloc<MainInventoryViewModel, MainInventoryBlocEv
     return products;
   }
 }
-
-/*
-    final List<String> names = ;
-  final List<String> expiration = <String>['Aby', 'Aish', 'Ayan', 'Ben', 'Bob', 'Charlie', 'Cook', 'Carline'];
-  final List<String> measure = <String>['Aby', 'Aish', 'Ayan', 'Ben', 'Bob', 'Charlie', 'Cook', 'Carline'];
-  final List<String> addedOn = <String>['Aby', 'Aish', 'Ayan', 'Ben', 'Bob', 'Charlie', 'Cook', 'Carline'];
-  final List<int> msgCount = <int>[2, 0, 10, 6, 52, 4, 0, 2];
-  final Color nameColor = Colors.blue;
-     */
