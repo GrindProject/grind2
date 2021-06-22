@@ -8,9 +8,9 @@ class ProductDao extends DaoFaunaDB<ProductDataModel> {
   }
 
   @override
-  ProductDataModel createModelFromJson(Map<String, dynamic> json) {
+  ProductDataModel createModelFromJson(String id, Map<String, dynamic> json) {
     return ProductDataModel(
-      id: json['id'],
+      id,
       description: json['description'],
       expirationDate: json['expirationDate'],
       measure: json['measure'],

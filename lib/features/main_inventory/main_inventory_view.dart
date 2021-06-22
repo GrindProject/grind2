@@ -20,12 +20,12 @@ class MainInventoryView extends View<MainInventoryViewModel, MainInventoryViewEv
           IconButton(
               icon: Icon(Icons.search),
               onPressed: () {
-                /// this.viewActions.searchItem();
+                /// this.viewEvents.searchItem();
               }),
           IconButton(
               icon: Icon(MdiIcons.barcodeScan),
               onPressed: () {
-                /// this.viewActions.scanItem();
+                /// this.viewEvents.scanItem();
               }),
         ],
       ),
@@ -37,7 +37,7 @@ class MainInventoryView extends View<MainInventoryViewModel, MainInventoryViewEv
             color: Colors.blue,
             child: InkWell(
               onTap: () {
-                /// this.viewActions.editItem();
+                this.viewEvents.manageItem(context, this.viewModel.items[index]);
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -80,7 +80,7 @@ class MainInventoryView extends View<MainInventoryViewModel, MainInventoryViewEv
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          /// this.viewActions.addItem();
+          /// this.viewEvents.addItem();
         },
       ),
     );

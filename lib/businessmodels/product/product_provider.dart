@@ -42,7 +42,7 @@ class ProductProvider extends Provider<ProductBusinessModel> {
 
   ProductDataModel _getDataModelFromBusinessModel(ProductBusinessModel businessModel) {
     return ProductDataModel(
-      id: businessModel.id,
+      businessModel.id,
       description: businessModel.description,
       expirationDate: businessModel.expirationDate,
       measure: businessModel.measure,
