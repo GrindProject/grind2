@@ -1,6 +1,8 @@
 import 'package:automated_inventory/framework/view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'main_inventory_viewevents.dart';
 import 'main_inventory_viewmodel.dart';
@@ -12,75 +14,75 @@ class MainInventoryView extends View<MainInventoryViewModel, MainInventoryViewEv
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text('Flutter Tutorial - googleflutter.com'),
-        ),
-        body: Column(children: <Widget>[
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: TextField(
-              controller: this.viewModel.nameController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Name',
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: TextField(
-              controller: this.viewModel.expController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Expiration Date',
-              ),
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.all(10),
-            child: TextField(
-              controller: this.viewModel.measureController,
-              decoration: InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: 'Measure',
-              ),
-            ),
-          ),
-          ElevatedButton(
-            child: Text('Add'),
-            onPressed: () {
-              this.viewEvents.addItemToList(this.viewModel);
-            },
-          ),
-          Expanded(
-              child: ListView.builder(
-                  padding: const EdgeInsets.all(8),
-                  itemCount: this.viewModel.items.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Card(
-                      color: Colors.blue,
-                      child: InkWell(
-                        onTap: () {},
-                        child: ListTile(
-                          title: Text(this.viewModel.items[index].name),
-                          subtitle: Text(this.viewModel.items[index].measure),
-                          trailing: Icon(Icons.chevron_right),
-                        ),
+      appBar: AppBar(
+        title: Text('My Inventory'),
+        actions: [
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                /// this.viewActions.searchItem();
+              }),
+          IconButton(
+              icon: Icon(MdiIcons.barcodeScan),
+              onPressed: () {
+                /// this.viewActions.scanItem();
+              }),
+        ],
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(4),
+        itemCount: this.viewModel.items.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Card(
+            color: Colors.blue,
+            child: InkWell(
+              onTap: () {
+                /// this.viewActions.editItem();
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            this.viewModel.items[index].name,
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
+                          ),
+                          Text(
+                            'Exp.Date: ' + this.viewModel.items[index].expirationDate,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(
+                            'Measure: ' + this.viewModel.items[index].measure,
+                            style: TextStyle(color: Colors.white),
+                          ),
+                          Text(
+                            'Qty: ' + this.viewModel.items[index].qty.toString(),
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        ],
                       ),
-                    );
-                    /*
-                    return Container(
-                      height: 50,
-                      margin: EdgeInsets.all(2),
-                      color: this.viewModel.items[index].color, // msgCount[index]>=10? Colors.blue[400]: msgCount[index]>3? Colors.blue[100]: Colors.grey,
-                      child: Center(
-                          child: Text(
-                        this.viewModel.items[index].toString(),
-                        style: TextStyle(fontSize: 18),
-                      )),
-                    );
-                     */
-                  }))
-        ]));
+                    ),
+                    Icon(
+                      Icons.chevron_right,
+                      color: Colors.white,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () {
+          /// this.viewActions.addItem();
+        },
+      ),
+    );
   }
 }

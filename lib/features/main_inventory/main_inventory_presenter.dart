@@ -10,15 +10,24 @@ import 'main_inventory_bloc.dart';
 import 'main_inventory_blocevent.dart';
 
 class MainInventoryPresenter extends Presenter<MainInventoryView, MainInventoryViewModel, MainInventoryViewEvents, MainInventoryBloc> {
+  MainInventoryPresenter(MainInventoryViewEvents viewEvents, MainInventoryBloc bloc, MainInventoryViewModel viewModel)
+      : super(viewEvents: viewEvents, bloc: bloc, viewModel: viewModel);
 
-  MainInventoryPresenter(MainInventoryViewEvents viewEvents, MainInventoryBloc bloc, MainInventoryViewModel viewModel) : super(viewEvents: viewEvents, bloc: bloc, viewModel: viewModel);
+  MainInventoryPresenter.withDefaultsViewModelViewActions(MainInventoryBloc bloc)
+      : super(viewEvents: MainInventoryViewEvents(bloc), bloc: bloc, viewModel: MainInventoryViewModel());
 
-  MainInventoryPresenter.withDefaultsViewModelViewActions(MainInventoryBloc bloc) : super(viewEvents: MainInventoryViewEvents(bloc), bloc: bloc, viewModel: MainInventoryViewModel());
   MainInventoryPresenter.withDefaultConstructors() : this.withDefaultsViewModelViewActions(MainInventoryBloc());
 
   @override
   Widget buildLoadingView(BuildContext context) {
-    return Text("Loading..");
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(''),
+      ),
+      body: Center(
+        child: Text("Loading..."),
+      ),
+    );
   }
 
   @override
@@ -31,5 +40,4 @@ class MainInventoryPresenter extends Presenter<MainInventoryView, MainInventoryV
     bloc.pipeIn.send(MainInventoryBlocEventOnInitializeView(this.viewModel));
     return bloc.pipeOut.receive;
   }
-
 }

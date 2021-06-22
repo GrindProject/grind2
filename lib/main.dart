@@ -1,9 +1,17 @@
 import 'package:automated_inventory/features/main_inventory/main_inventory_presenter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 void main() {
+
+
   runApp(MaterialApp(
-    home: MainInventoryPresenter.withDefaultConstructors(), // MainInventoryView(viewModel: null, viewEvents: null,),
+    debugShowCheckedModeBanner: false,
+    themeMode: ThemeMode.light,
+    theme: new ThemeData(
+      primarySwatch: Colors.blue,
+    ),
+    home: MainInventoryPresenter.withDefaultConstructors(),
   ));
 }
 
@@ -117,5 +125,85 @@ class _State extends State<MyApp> {
     );
   }
 }
+
+
+
+
+
+    /* Column(children: <Widget>[
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: TextField(
+              controller: this.viewModel.nameController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Name',
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: TextField(
+              controller: this.viewModel.expController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Expiration Date',
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: TextField(
+              controller: this.viewModel.measureController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Measure',
+              ),
+            ),
+          ),
+          ElevatedButton(
+            child: Text('Add'),
+            onPressed: () {
+              this.viewEvents.addItemToList(this.viewModel);
+            },
+          ),
+          Expanded(
+              child: ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemCount: this.viewModel.items.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Card(
+                      color: Colors.blue,
+                      child: InkWell(
+                        onTap: () {},
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(this.viewModel.items[index].id),
+                                    Text(this.viewModel.items[index].name),
+                                    Text(this.viewModel.items[index].expirationDate),
+                                    Text(this.viewModel.items[index].measure),
+                                  ],
+                                ),
+                              ),
+                              Icon(
+                                Icons.chevron_right,
+                                color: Colors.white,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  }))
+        ]));
+     */
+
+
 
  */
