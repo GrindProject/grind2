@@ -5,11 +5,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class MainInventoryViewModel extends ViewModel {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController expController = TextEditingController();
-  TextEditingController measureController = TextEditingController();
-  Color colorController = Colors.yellow;
-
   final List<MainInventoryViewModelItemModel> cachedItems = List.empty(growable: true);
   final List<MainInventoryViewModelItemModel> items = List.empty(growable: true);
 }

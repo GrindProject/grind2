@@ -26,6 +26,7 @@ class MainInventoryBloc extends Bloc<MainInventoryViewModel, MainInventoryBlocEv
   }
 
   void _addItem(MainInventoryBlocEventAddItem event) {
+    /*
     event.viewModel.items.add(MainInventoryViewModelItemModel(
       '',
       event.viewModel.nameController.text,
@@ -35,6 +36,7 @@ class MainInventoryBloc extends Bloc<MainInventoryViewModel, MainInventoryBlocEv
       5,
     ));
     this.pipeOut.send(event.viewModel);
+     */
   }
 
   void _deleteItem(MainInventoryBlocEventDeleteItem event) {
@@ -55,7 +57,7 @@ class MainInventoryBloc extends Bloc<MainInventoryViewModel, MainInventoryBlocEv
   Future<List<MainInventoryViewModelItemModel>> _getItemsFromRepository() async {
     List<MainInventoryViewModelItemModel> listItems = List.empty(growable: true);
 
-    List<ProductBusinessModel> products = await _getProductBusinessModelFromRepository();
+    List<ProductBusinessModel> products = await _getProductsBusinessModelFromRepository();
 
     products.forEach((product) {
       listItems.add(MainInventoryViewModelItemModel(product.id, product.description, product.expirationDate, product.measure, Colors.blue, 5));
@@ -64,7 +66,7 @@ class MainInventoryBloc extends Bloc<MainInventoryViewModel, MainInventoryBlocEv
     return listItems;
   }
 
-  Future<List<ProductBusinessModel>> _getProductBusinessModelFromRepository() async {
+  Future<List<ProductBusinessModel>> _getProductsBusinessModelFromRepository() async {
     ProductProvider productProvider = ProductProvider();
     List<ProductBusinessModel> products = await productProvider.getAll();
     return products;

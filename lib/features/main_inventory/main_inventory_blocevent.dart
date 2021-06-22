@@ -14,10 +14,7 @@ class MainInventoryBlocEventOnInitializeView extends MainInventoryBlocEvent {
 /// custom events
 
 class MainInventoryBlocEventAddItem  extends MainInventoryBlocEvent {
-
-  final String item;
-
-  MainInventoryBlocEventAddItem(MainInventoryViewModel viewModel, this.item) : super(viewModel);
+  MainInventoryBlocEventAddItem(MainInventoryViewModel viewModel) : super(viewModel);
 }
 
 class MainInventoryBlocEventDeleteItem  extends MainInventoryBlocEvent {
