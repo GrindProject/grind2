@@ -1,3 +1,4 @@
+import 'package:automated_inventory/framework/codemessage.dart';
 import 'package:automated_inventory/framework/model.dart';
 import 'package:automated_inventory/framework/viewmodel.dart';
 import 'package:flutter/cupertino.dart';
@@ -7,6 +8,8 @@ import 'package:flutter/material.dart';
 class MainInventoryViewModel extends ViewModel {
   final List<MainInventoryViewModelItemModel> cachedItems = List.empty(growable: true);
   final List<MainInventoryViewModelItemModel> items = List.empty(growable: true);
+
+  CodeMessage? responseToDeleteItem;
 }
 
 class MainInventoryViewModelItemModel extends Model {

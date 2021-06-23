@@ -1,3 +1,4 @@
+import 'package:automated_inventory/framework/codemessage.dart';
 import 'package:automated_inventory/framework/model.dart';
 import 'package:automated_inventory/framework/viewmodel.dart';
 import 'package:flutter/cupertino.dart';
@@ -13,6 +14,8 @@ class ManageItemViewModel extends ViewModel {
   TextEditingController measureController = TextEditingController();
 
   String screenTitle = "";
+
+  CodeMessage? responseToSaveItem;
 }
 
 class ManageItemViewModelItemModel extends Model {

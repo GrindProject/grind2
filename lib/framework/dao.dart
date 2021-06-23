@@ -1,3 +1,4 @@
+import 'codemessage.dart';
 import 'datamodel.dart';
 
 abstract class Dao<DM extends DataModel> {
@@ -5,6 +6,9 @@ abstract class Dao<DM extends DataModel> {
 
   Future<List<DM>> getAll();
 
-  Future<bool> put(DM dataModel);
-}
+  Future<CodeMessage> put(DM dataModel);
 
+  Future<CodeMessage> create(DM dataModel);
+
+  Future<CodeMessage> delete(String id);
+}

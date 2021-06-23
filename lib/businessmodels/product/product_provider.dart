@@ -1,6 +1,7 @@
 import 'package:automated_inventory/businessmodels/product/product_businessmodel.dart';
 import 'package:automated_inventory/datamodels/product/product_dao.dart';
 import 'package:automated_inventory/datamodels/product/product_datamodel.dart';
+import 'package:automated_inventory/framework/codemessage.dart';
 import 'package:automated_inventory/framework/provider.dart';
 
 class ProductProvider extends Provider<ProductBusinessModel> {
@@ -24,9 +25,15 @@ class ProductProvider extends Provider<ProductBusinessModel> {
   }
 
   @override
-  Future<bool> put(ProductBusinessModel businessModel) async {
+  Future<CodeMessage> put(ProductBusinessModel businessModel) async {
     ProductDataModel dataModel = _getDataModelFromBusinessModel(businessModel);
     return _productDao.put(dataModel);
+  }
+
+  @override
+  Future<CodeMessage> create(ProductBusinessModel businessModel) async {
+    ProductDataModel dataModel = _getDataModelFromBusinessModel(businessModel);
+    return _productDao.create(dataModel);
   }
 
   /// adapters
@@ -47,5 +54,10 @@ class ProductProvider extends Provider<ProductBusinessModel> {
       expirationDate: businessModel.expirationDate,
       measure: businessModel.measure,
     );
+  }
+
+  @override
+  Future<CodeMessage> delete(String id) {
+    return _productDao.delete(id);
   }
 }

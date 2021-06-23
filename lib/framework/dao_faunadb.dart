@@ -2,6 +2,7 @@ import 'package:faunadb_http/faunadb_http.dart';
 import 'package:faunadb_http/query.dart';
 import 'package:flutter/cupertino.dart';
 
+import 'codemessage.dart';
 import 'dao.dart';
 import 'datamodel.dart';
 
@@ -48,15 +49,38 @@ abstract class DaoFaunaDB<DM extends DataModel> extends Dao<DM> {
     return list;
   }
 
-  Future<bool> put(DM dataModel) async {
-    Obj obj = Obj.fromJson(dataModel.toJson());
-    final query = Replace(Ref(Collection(getCollectionName()), dataModel.id), obj);
-    print(query.toJson().toString());
-    _client.query(query).then((value) {
-      print("OK!");
-    }).catchError((onError) {
-      print("error! " + onError.toString());
-    });
-    return true;
+  Future<CodeMessage> put(DM dataModel) async {
+    try {
+      Obj obj = Obj.fromJson(dataModel.toJson());
+      final query = Replace(Ref(Collection(getCollectionName()), dataModel.id), obj);
+      print(query.toJson().toString());
+      FaunaResponse response = await _client.query(query);
+      return CodeMessage(1, "");
+    } catch (error) {
+      return CodeMessage(100, error.toString());
+    }
+  }
+
+  Future<CodeMessage> create(DM dataModel) async {
+    try {
+      Obj obj = Obj.fromJson(dataModel.toJson());
+      final query = Create(Collection(getCollectionName()), obj);
+      print(query.toJson().toString());
+      FaunaResponse response = await _client.query(query);
+      return CodeMessage(1, "");
+    } catch (error) {
+      return CodeMessage(200, error.toString());
+    }
+  }
+
+  Future<CodeMessage> delete(String id) async {
+    try {
+      final query = Delete(Ref(Collection(getCollectionName()), id));
+      print(query.toJson().toString());
+      FaunaResponse response = await _client.query(query);
+      return CodeMessage(1, "");
+    } catch (error) {
+      return CodeMessage(300, error.toString());
+    }
   }
 }

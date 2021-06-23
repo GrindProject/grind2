@@ -13,10 +13,20 @@ class MainInventoryBlocEventOnInitializeView extends MainInventoryBlocEvent {
 
 /// custom events
 
-class MainInventoryBlocEventAddItem  extends MainInventoryBlocEvent {
-  MainInventoryBlocEventAddItem(MainInventoryViewModel viewModel) : super(viewModel);
+//class MainInventoryBlocEventAddItem extends MainInventoryBlocEvent {
+//  MainInventoryBlocEventAddItem(MainInventoryViewModel viewModel) : super(viewModel);
+//}
+
+//class MainInventoryBlocEventDeleteItem extends MainInventoryBlocEvent {
+//  MainInventoryBlocEventDeleteItem(MainInventoryViewModel viewModel) : super(viewModel);
+//}
+
+class MainInventoryBlocEventRefreshData extends MainInventoryBlocEvent {
+  MainInventoryBlocEventRefreshData(MainInventoryViewModel viewModel) : super(viewModel);
 }
 
-class MainInventoryBlocEventDeleteItem  extends MainInventoryBlocEvent {
-  MainInventoryBlocEventDeleteItem(MainInventoryViewModel viewModel) : super(viewModel);
+class MainInventoryBlocEventDeleteItem extends MainInventoryBlocEvent {
+  final int itemIndex;
+
+  MainInventoryBlocEventDeleteItem(MainInventoryViewModel viewModel, this.itemIndex) : super(viewModel);
 }
