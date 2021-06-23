@@ -1,8 +1,6 @@
 import 'package:automated_inventory/framework/view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
-import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'manage_item_viewevents.dart';
 import 'manage_item_viewmodel.dart';
@@ -12,6 +10,8 @@ class ManageItemView extends View<ManageItemViewModel, ManageItemViewEvents> {
 
   @override
   Widget build(BuildContext context) {
+    _checkIfThereIsResponseForSavingItem(context);
+
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -64,6 +64,56 @@ class ManageItemView extends View<ManageItemViewModel, ManageItemViewEvents> {
         },
       ),
        */
+    );
+  }
+
+  void _checkIfThereIsResponseForSavingItem(BuildContext context) {
+    if (this.viewModel.responseToSaveItem != null) {
+      Future.delayed(Duration(milliseconds: 300), () {
+        if (this.viewModel.responseToSaveItem!.code == 1)
+          _showAlertDialogItemSavedOK(context);
+        else
+          _showAlertDialogItemSaveError(context, this.viewModel.responseToSaveItem!.message);
+      });
+    }
+  }
+
+  void _showAlertDialogItemSavedOK(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Success!'),
+        content: Text('Your item was saved!'),
+        actions: <Widget>[
+          new TextButton(
+            onPressed: () {
+              this.viewModel.responseToSaveItem = null;
+              Navigator.of(context, rootNavigator: true).pop();
+              Navigator.of(context).pop();
+            },
+            child: new Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showAlertDialogItemSaveError(BuildContext context, String errorMessage) {
+    showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Error!'),
+        content: Text('There were errors while saving your item! ' + errorMessage),
+        actions: <Widget>[
+          new TextButton(
+            onPressed: () {
+              this.viewModel.responseToSaveItem = null;
+              Navigator.of(context, rootNavigator: true).pop();
+            },
+            child: new Text('OK'),
+          ),
+        ],
+      ),
     );
   }
 }

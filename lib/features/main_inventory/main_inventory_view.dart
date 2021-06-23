@@ -13,15 +13,11 @@ class MainInventoryView extends View<MainInventoryViewModel, MainInventoryViewEv
 
   @override
   Widget build(BuildContext context) {
+    _checkIfThereIsResponseForSavingItem(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('My Inventory'),
         actions: [
-          IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                /// this.viewEvents.searchItem();
-              }),
           IconButton(
               icon: Icon(MdiIcons.barcodeScan),
               onPressed: () {
@@ -37,7 +33,7 @@ class MainInventoryView extends View<MainInventoryViewModel, MainInventoryViewEv
             color: Colors.blue,
             child: InkWell(
               onTap: () {
-                this.viewEvents.manageItem(context, this.viewModel.items[index]);
+                this.viewEvents.manageItem(context, this.viewModel, index);
               },
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -66,6 +62,12 @@ class MainInventoryView extends View<MainInventoryViewModel, MainInventoryViewEv
                         ],
                       ),
                     ),
+                    IconButton(
+                      onPressed: () {
+                        this.viewEvents.deleteItem(context, this.viewModel, index);
+                      },
+                      icon: Icon(Icons.delete, color: Colors.white),
+                    ),
                     Icon(
                       Icons.chevron_right,
                       color: Colors.white,
@@ -80,8 +82,57 @@ class MainInventoryView extends View<MainInventoryViewModel, MainInventoryViewEv
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
         onPressed: () {
-          /// this.viewEvents.addItem();
+          this.viewEvents.addItem(context, this.viewModel);
         },
+      ),
+    );
+  }
+
+  void _checkIfThereIsResponseForSavingItem(BuildContext context) {
+    if (this.viewModel.responseToDeleteItem != null) {
+      Future.delayed(Duration(milliseconds: 300), () {
+        if (this.viewModel.responseToDeleteItem!.code == 1)
+          _showAlertDialogItemDeletedOK(context);
+        else
+          _showAlertDialogItemDeleteError(context, this.viewModel.responseToDeleteItem!.message);
+      });
+    }
+  }
+
+  void _showAlertDialogItemDeletedOK(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Success!'),
+        content: Text('Your item was deleted!'),
+        actions: <Widget>[
+          new TextButton(
+            onPressed: () {
+              this.viewModel.responseToDeleteItem = null;
+              Navigator.of(context, rootNavigator: true).pop();
+            },
+            child: new Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showAlertDialogItemDeleteError(BuildContext context, String errorMessage) {
+    showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Error!'),
+        content: Text('There were errors while deleting your item! ' + errorMessage),
+        actions: <Widget>[
+          new TextButton(
+            onPressed: () {
+              this.viewModel.responseToDeleteItem = null;
+              Navigator.of(context, rootNavigator: true).pop();
+            },
+            child: new Text('OK'),
+          ),
+        ],
       ),
     );
   }
