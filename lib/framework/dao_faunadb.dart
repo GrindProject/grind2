@@ -10,6 +10,7 @@ final config = FaunaConfig.build(
   secret: 'fnAEL79bh6ACAA1nfM7Oqm6uczZQbYmdOyzf3RTD',
 );
 
+/*
 abstract class DaoFaunaDB<DM extends DataModel> extends Dao<DM> {
   final _client = FaunaClient(config);
 
@@ -84,3 +85,4 @@ abstract class DaoFaunaDB<DM extends DataModel> extends Dao<DM> {
     }
   }
 }
+*/

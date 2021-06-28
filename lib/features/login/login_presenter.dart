@@ -1,22 +1,21 @@
-import 'package:automated_inventory/features/main_inventory/main_inventory_view.dart';
-import 'package:automated_inventory/features/main_inventory/main_inventory_viewevents.dart';
-import 'package:automated_inventory/features/main_inventory/main_inventory_viewmodel.dart';
-import 'package:automated_inventory/framework/blocevent.dart';
+import 'package:automated_inventory/features/login/login_view.dart';
+import 'package:automated_inventory/features/login/login_viewevents.dart';
+import 'package:automated_inventory/features/login/login_viewmodel.dart';
 import 'package:automated_inventory/framework/presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 
-import 'main_inventory_bloc.dart';
-import 'main_inventory_blocevent.dart';
+import 'login_bloc.dart';
+import 'login_blocevent.dart';
 
-class MainInventoryPresenter extends Presenter<MainInventoryView, MainInventoryViewModel, MainInventoryViewEvents, MainInventoryBloc> {
-  MainInventoryPresenter(MainInventoryViewEvents viewEvents, MainInventoryBloc bloc, MainInventoryViewModel viewModel)
+class LoginPresenter extends Presenter<LoginView, LoginViewModel, LoginViewEvents, LoginBloc> {
+  LoginPresenter(LoginViewEvents viewEvents, LoginBloc bloc, LoginViewModel viewModel)
       : super(viewEvents: viewEvents, bloc: bloc, viewModel: viewModel);
 
-  MainInventoryPresenter.withDefaultsViewModelViewActions(MainInventoryBloc bloc)
-      : super(viewEvents: MainInventoryViewEvents(bloc), bloc: bloc, viewModel: MainInventoryViewModel());
+  LoginPresenter.withDefaultsViewModelViewActions(LoginBloc bloc)
+      : super(viewEvents: LoginViewEvents(bloc), bloc: bloc, viewModel: LoginViewModel());
 
-  MainInventoryPresenter.withDefaultConstructors() : this.withDefaultsViewModelViewActions(MainInventoryBloc());
+  LoginPresenter.withDefaultConstructors() : this.withDefaultsViewModelViewActions(LoginBloc());
 
   @override
   Widget buildLoadingView(BuildContext context) {
@@ -31,13 +30,13 @@ class MainInventoryPresenter extends Presenter<MainInventoryView, MainInventoryV
   }
 
   @override
-  MainInventoryView buildView(BuildContext context, MainInventoryViewModel viewModel) {
-    return MainInventoryView(viewModel: viewModel, viewEvents: this.viewEvents);
+  LoginView buildView(BuildContext context, LoginViewModel viewModel) {
+    return LoginView(viewModel: viewModel, viewEvents: this.viewEvents);
   }
 
   @override
-  Stream<MainInventoryViewModel> getViewModelStream() {
-    bloc.pipeIn.send(MainInventoryBlocEventOnInitializeView(this.viewModel));
+  Stream<LoginViewModel> getViewModelStream() {
+    bloc.pipeIn.send(LoginBlocEventOnInitializeView(this.viewModel));
     return bloc.pipeOut.receive;
   }
 }

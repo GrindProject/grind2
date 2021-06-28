@@ -1,89 +1,71 @@
 import 'package:automated_inventory/businessmodels/product/product_businessmodel.dart';
 import 'package:automated_inventory/businessmodels/product/product_provider.dart';
-import 'package:automated_inventory/features/main_inventory/main_inventory_blocevent.dart';
-import 'package:automated_inventory/features/main_inventory/main_inventory_viewmodel.dart';
+import 'package:automated_inventory/features/login/login_blocevent.dart';
+import 'package:automated_inventory/features/login/login_viewmodel.dart';
 import 'package:automated_inventory/framework/bloc.dart';
 import 'package:automated_inventory/framework/codemessage.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
-class MainInventoryBloc extends Bloc<MainInventoryViewModel, MainInventoryBlocEvent> {
+class LoginBloc extends Bloc<LoginViewModel, LoginBlocEvent> {
+
   @override
-  void onReceiveEvent(MainInventoryBlocEvent event) {
-    if (event is MainInventoryBlocEventOnInitializeView) _onInitializeView(event);
-    if (event is MainInventoryBlocEventRefreshData) _refreshData(event);
-    if (event is MainInventoryBlocEventDeleteItem) _deleteItem(event);
+  void onReceiveEvent(LoginBlocEvent event) {
+    if (event is LoginBlocEventOnInitializeView) _onInitializeView(event);
+    if (event is LoginBlocEventSignIn) _onSignIn(event);
+    if (event is LoginBlocEventSignOut) _onSignOut(event);
   }
 
-  void _onInitializeView(MainInventoryBlocEvent event) {
-    _getItemsFromRepository().then((List<MainInventoryViewModelItemModel> items) {
-      event.viewModel.cachedItems.clear();
-      event.viewModel.cachedItems.addAll(items);
-
-      event.viewModel.items.clear();
-      event.viewModel.items.addAll(event.viewModel.cachedItems);
-
+  void _onInitializeView(LoginBlocEvent event) async {
+    UserCredential? userCredential = await _signInWithGoogle(true);
+    if ((userCredential == null) || (userCredential.user == null)) {
+      event.viewModel.userEmail = null;
       this.pipeOut.send(event.viewModel);
-    });
-  }
-
-  void _refreshData(MainInventoryBlocEventRefreshData event) {
-    _refreshViewModelList(event.viewModel);
-  }
-
-  void _deleteItem(MainInventoryBlocEventDeleteItem event) async {
-    String itemId = event.viewModel.items[event.itemIndex].id;
-    ProductProvider productProvider = ProductProvider();
-    CodeMessage codeMessage = await productProvider.delete(itemId);
-
-    if (codeMessage.code == 1) {
-      event.viewModel.responseToDeleteItem = codeMessage;
-      _refreshViewModelList(event.viewModel);
     } else {
-      event.viewModel.responseToDeleteItem = codeMessage;
+      event.viewModel.userEmail = userCredential.user!.email!;
       this.pipeOut.send(event.viewModel);
     }
   }
 
-  void _refreshViewModelList(MainInventoryViewModel viewModel) {
-    _getItemsFromRepository().then((List<MainInventoryViewModelItemModel> items) {
-      viewModel.cachedItems.clear();
-      viewModel.cachedItems.addAll(items);
-
-      viewModel.items.clear();
-      viewModel.items.addAll(viewModel.cachedItems);
-
-      this.pipeOut.send(viewModel);
-    });
+  void _onSignIn(LoginBlocEventSignIn event) async {
+    UserCredential? userCredential = await _signInWithGoogle(false);
+    if ((userCredential == null) || (userCredential.user == null)) {
+      event.viewModel.userEmail = null;
+      this.pipeOut.send(event.viewModel);
+    } else {
+      event.viewModel.userEmail = userCredential.user!.email!;
+      this.pipeOut.send(event.viewModel);
+    }
   }
 
-  /*
-  void _applySearchArguments(MainInventoryBlocEvent event) {
-    String searchArgments = '1'; // event.dasdasfd
-    event.viewModel.items.clear();
-    event.viewModel.cachedItems.forEach((item) {
-      if (item.name.contains(searchArgments)) {
-        event.viewModel.items.add(item);
-      }
-    });
+  void _onSignOut(LoginBlocEventSignOut event) async {
+    /// which one?
+    await GoogleSignIn().signOut();
+    event.viewModel.userEmail = null;
     this.pipeOut.send(event.viewModel);
   }
-   */
 
-  Future<List<MainInventoryViewModelItemModel>> _getItemsFromRepository() async {
-    List<MainInventoryViewModelItemModel> listItems = List.empty(growable: true);
+  Future<UserCredential?> _signInWithGoogle(bool signInSilently) async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser =  signInSilently ? await GoogleSignIn().signInSilently() : await GoogleSignIn().signIn();
+    if (googleUser == null) return null;
 
-    List<ProductBusinessModel> products = await _getProductsBusinessModelFromRepository();
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication googleAuth = await googleUser
+        .authentication;
 
-    products.forEach((product) {
-      listItems.add(MainInventoryViewModelItemModel(product.id, product.description, product.expirationDate, product.measure, Colors.blue, 5));
-    });
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth.accessToken,
+      idToken: googleAuth.idToken,
+    );
 
-    return listItems;
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(credential);
+
   }
 
-  Future<List<ProductBusinessModel>> _getProductsBusinessModelFromRepository() async {
-    ProductProvider productProvider = ProductProvider();
-    List<ProductBusinessModel> products = await productProvider.getAll();
-    return products;
-  }
+
+
 }

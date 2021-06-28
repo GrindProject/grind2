@@ -44,6 +44,7 @@ class ProductProvider extends Provider<ProductBusinessModel> {
       description: dataModel.description,
       expirationDate: dataModel.expirationDate,
       measure: dataModel.measure,
+      upcNumber: dataModel.upcNumber,
     );
   }
 
@@ -53,11 +54,18 @@ class ProductProvider extends Provider<ProductBusinessModel> {
       description: businessModel.description,
       expirationDate: businessModel.expirationDate,
       measure: businessModel.measure,
+      upcNumber: businessModel.upcNumber,
     );
   }
 
   @override
   Future<CodeMessage> delete(String id) {
     return _productDao.delete(id);
+  }
+
+  Future<ProductBusinessModel?> getbyUPCNumber(String upcNumber) async {
+   ProductDataModel? dataModel = await _productDao.getByUsingUPCNumber(upcNumber);
+   if (dataModel == null) return null;
+   return _getBusinessModelFromDataModel(dataModel);
   }
 }

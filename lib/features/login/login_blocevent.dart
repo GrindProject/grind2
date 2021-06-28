@@ -1,32 +1,22 @@
-import 'package:automated_inventory/features/main_inventory/main_inventory_viewmodel.dart';
+import 'package:automated_inventory/features/login/login_viewmodel.dart';
 import 'package:automated_inventory/framework/blocevent.dart';
 
-abstract class MainInventoryBlocEvent extends BlocEvent<MainInventoryViewModel> {
-  MainInventoryBlocEvent(MainInventoryViewModel viewModel) : super(viewModel);
+abstract class LoginBlocEvent extends BlocEvent<LoginViewModel> {
+  LoginBlocEvent(LoginViewModel viewModel) : super(viewModel);
 }
 
 /// base events
 
-class MainInventoryBlocEventOnInitializeView extends MainInventoryBlocEvent {
-  MainInventoryBlocEventOnInitializeView(MainInventoryViewModel viewModel) : super(viewModel);
+class LoginBlocEventOnInitializeView extends LoginBlocEvent {
+  LoginBlocEventOnInitializeView(LoginViewModel viewModel) : super(viewModel);
 }
 
 /// custom events
 
-//class MainInventoryBlocEventAddItem extends MainInventoryBlocEvent {
-//  MainInventoryBlocEventAddItem(MainInventoryViewModel viewModel) : super(viewModel);
-//}
-
-//class MainInventoryBlocEventDeleteItem extends MainInventoryBlocEvent {
-//  MainInventoryBlocEventDeleteItem(MainInventoryViewModel viewModel) : super(viewModel);
-//}
-
-class MainInventoryBlocEventRefreshData extends MainInventoryBlocEvent {
-  MainInventoryBlocEventRefreshData(MainInventoryViewModel viewModel) : super(viewModel);
+class LoginBlocEventSignIn extends LoginBlocEvent {
+  LoginBlocEventSignIn(LoginViewModel viewModel) : super(viewModel);
 }
 
-class MainInventoryBlocEventDeleteItem extends MainInventoryBlocEvent {
-  final int itemIndex;
-
-  MainInventoryBlocEventDeleteItem(MainInventoryViewModel viewModel, this.itemIndex) : super(viewModel);
+class LoginBlocEventSignOut extends LoginBlocEvent {
+  LoginBlocEventSignOut(LoginViewModel viewModel) : super(viewModel);
 }

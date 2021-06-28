@@ -1,9 +1,14 @@
 import 'package:automated_inventory/features/main_inventory/main_inventory_presenter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
 
+import 'features/login/login_presenter.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -11,7 +16,9 @@ void main() {
     theme: new ThemeData(
       primarySwatch: Colors.blue,
     ),
-    home: MainInventoryPresenter.withDefaultConstructors(),
+    home: LoginPresenter.withDefaultConstructors(),
+
+   // home: MainInventory.withDefaultConstructors(),
   ));
 }
 

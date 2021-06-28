@@ -1,151 +1,60 @@
 import 'package:automated_inventory/framework/view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'main_inventory_viewevents.dart';
-import 'main_inventory_viewmodel.dart';
+import 'login_viewevents.dart';
+import 'login_viewmodel.dart';
 
-class MainInventoryView extends View<MainInventoryViewModel, MainInventoryViewEvents> {
+import 'package:google_sign_in/google_sign_in.dart';
+
+class LoginView extends View<LoginViewModel, LoginViewEvents> {
   bool isSwitched = false;
-  MainInventoryView({required MainInventoryViewModel viewModel, required MainInventoryViewEvents viewEvents})
+
+  LoginView(
+      {required LoginViewModel viewModel, required LoginViewEvents viewEvents})
       : super(viewModel: viewModel, viewEvents: viewEvents);
 
   @override
   Widget build(BuildContext context) {
-    _checkIfThereIsResponseForSavingItem(context);
+    _checkIfThereIsResponseForSigningIn(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Inventory'),
-        actions: [
+        title: Text('Login View'),
+      ),
+      body: Center(
+        child: Column(
+          children: [
 
-          Switch(
-            value: isSwitched,
-            onChanged: (value) {
-                isSwitched = value;
-            },
-            activeTrackColor: Colors.yellow,
-            activeColor: Colors.orangeAccent,
-          ),
-
-        /* IconButton(
-              icon: Icon(MdiIcons.barcodeScan),
+            /// login/out button
+            ElevatedButton(
               onPressed: () {
-                /// this.viewEvents.scanItem();
-              }), */
-
-        ],
-      ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(4),
-        itemCount: this.viewModel.items.length,
-        itemBuilder: (BuildContext context, int index) {
-          return Card(
-            color: Colors.blue,
-            child: InkWell(
-              onTap: () {
-                this.viewEvents.manageItem(context, this.viewModel, index);
+                this.viewEvents.startLogin(context, viewModel);
               },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            this.viewModel.items[index].name,
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
-                          ),
-                          Text(
-                            'Exp.Date: ' + this.viewModel.items[index].expirationDate,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Text(
-                            'Measure: ' + this.viewModel.items[index].measure,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          Text(
-                            'Qty: ' + this.viewModel.items[index].qty.toString(),
-                            style: TextStyle(color: Colors.white),
-                          ),
-                        ],
-                      ),
-                    ),
-                    IconButton(
-                      onPressed: () {
-                        this.viewEvents.deleteItem(context, this.viewModel, index);
-                      },
-                      icon: Icon(Icons.delete, color: Colors.white),
-                    ),
-                    Icon(
-                      Icons.chevron_right,
-                      color: Colors.white,
-                    ),
-                  ],
-                ),
-              ),
+              child: Text("Login"),
             ),
-          );
-        },
-      ),
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          this.viewEvents.addItem(context, this.viewModel);
-        },
+
+            /// user's email
+            (this.viewModel.userEmail != null)
+            ? Text(this.viewModel.userEmail!)
+            : SizedBox.shrink(),
+
+
+
+          ],
+        ),
       ),
     );
   }
 
-  void _checkIfThereIsResponseForSavingItem(BuildContext context) {
-    if (this.viewModel.responseToDeleteItem != null) {
+  void _checkIfThereIsResponseForSigningIn(BuildContext context) {
+    if (this.viewModel.userEmail != null) {
       Future.delayed(Duration(milliseconds: 300), () {
-        if (this.viewModel.responseToDeleteItem!.code == 1)
-          _showAlertDialogItemDeletedOK(context);
-        else
-          _showAlertDialogItemDeleteError(context, this.viewModel.responseToDeleteItem!.message);
+        this.viewEvents.navigateToTheMainInventoryScreen(context, this.viewModel);
       });
     }
   }
 
-  void _showAlertDialogItemDeletedOK(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (context) => new AlertDialog(
-        title: new Text('Success!'),
-        content: Text('Your item was deleted!'),
-        actions: <Widget>[
-          new TextButton(
-            onPressed: () {
-              this.viewModel.responseToDeleteItem = null;
-              Navigator.of(context, rootNavigator: true).pop();
-            },
-            child: new Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showAlertDialogItemDeleteError(BuildContext context, String errorMessage) {
-    showDialog(
-      context: context,
-      builder: (context) => new AlertDialog(
-        title: new Text('Error!'),
-        content: Text('There were errors while deleting your item! ' + errorMessage),
-        actions: <Widget>[
-          new TextButton(
-            onPressed: () {
-              this.viewModel.responseToDeleteItem = null;
-              Navigator.of(context, rootNavigator: true).pop();
-            },
-            child: new Text('OK'),
-          ),
-        ],
-      ),
-    );
-  }
 }

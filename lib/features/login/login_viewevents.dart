@@ -1,40 +1,36 @@
-import 'package:automated_inventory/features/main_inventory/main_inventory_bloc.dart';
-import 'package:automated_inventory/features/main_inventory/main_inventory_viewmodel.dart';
+import 'package:automated_inventory/features/login/login_bloc.dart';
+import 'package:automated_inventory/features/login/login_viewmodel.dart';
+import 'package:automated_inventory/features/main_inventory/main_inventory_presenter.dart';
 import 'package:automated_inventory/features/manage_item/manage_item_presenter.dart';
 import 'package:automated_inventory/framework/viewevents.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'main_inventory_blocevent.dart';
+import 'login_blocevent.dart';
 
-class MainInventoryViewEvents extends ViewEvents<MainInventoryBloc> {
-  MainInventoryViewEvents(MainInventoryBloc bloc) : super(bloc);
+class LoginViewEvents extends ViewEvents<LoginBloc> {
+  LoginViewEvents(LoginBloc bloc) : super(bloc);
 
-  void manageItem(BuildContext context, MainInventoryViewModel viewModel, int itemIndex) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ManageItemPresenter.withDefaultConstructors(viewModel.items[itemIndex].id)),
-    ).then((value) {
-      this.refreshScreen(context, viewModel);
-    });
-  }
-
-  void addItem(BuildContext context, MainInventoryViewModel viewModel) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ManageItemPresenter.withDefaultConstructors('')),
-    ).then((value) {
-      this.refreshScreen(context, viewModel);
-    });
-  }
-
-  void deleteItem(BuildContext context, MainInventoryViewModel viewModel, int index) {
-    MainInventoryBlocEventDeleteItem blocEvent = MainInventoryBlocEventDeleteItem(viewModel, index);
+  void startLogin(BuildContext context, LoginViewModel viewModel) {
+    LoginBlocEventSignIn blocEvent = LoginBlocEventSignIn(viewModel);
     this.bloc.pipeIn.send(blocEvent);
   }
 
-  void refreshScreen(BuildContext context, MainInventoryViewModel viewModel) {
-    MainInventoryBlocEventRefreshData blocEvent = MainInventoryBlocEventRefreshData(viewModel);
+  void navigateToTheMainInventoryScreen(BuildContext context, LoginViewModel viewModel) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => MainInventoryPresenter.withDefaultConstructors()),
+    ).then((value) {
+      startLogout(context, viewModel);
+    });
+  }
+
+  void startLogout(BuildContext context, LoginViewModel viewModel) {
+    LoginBlocEventSignOut blocEvent = LoginBlocEventSignOut(viewModel);
     this.bloc.pipeIn.send(blocEvent);
   }
+
+
+
+
 }

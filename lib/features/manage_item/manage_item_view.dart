@@ -6,6 +6,20 @@ import 'manage_item_viewevents.dart';
 import 'manage_item_viewmodel.dart';
 
 class ManageItemView extends View<ManageItemViewModel, ManageItemViewEvents> {
+
+  /*
+  DateTime _date = DateTime.now();
+  Future<Null> selectDate(BuildContext context) async
+  {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: _date,
+        firstDate: DateTime(1970),
+        lastDate: DateTime(2030)
+    );
+  }
+   */
+
   ManageItemView({required ManageItemViewModel viewModel, required ManageItemViewEvents viewEvents}) : super(viewModel: viewModel, viewEvents: viewEvents);
 
   @override
@@ -35,10 +49,12 @@ class ManageItemView extends View<ManageItemViewModel, ManageItemViewEvents> {
             ),
           ),
         ),
+
         Padding(
           padding: EdgeInsets.all(10),
           child: TextField(
             controller: this.viewModel.expirationDateController,
+            onTap: () {}, // showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime.now(), lastDate: DateTime.now()),
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'Expiration Date',
@@ -55,6 +71,18 @@ class ManageItemView extends View<ManageItemViewModel, ManageItemViewEvents> {
             ),
           ),
         ),
+
+        Padding(
+          padding: EdgeInsets.all(10),
+          child: TextField(
+            controller: this.viewModel.upcNumberController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'UPC Number',
+            ),
+          ),
+        ),
+
       ]),
       /*
       floatingActionButton: FloatingActionButton(

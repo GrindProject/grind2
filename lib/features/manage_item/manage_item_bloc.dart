@@ -63,17 +63,18 @@ class ManageItemBloc extends Bloc<ManageItemViewModel, ManageItemBlocEvent> {
       description: event.viewModel.descriptionController.text,
       expirationDate: event.viewModel.expirationDateController.text,
       measure: event.viewModel.measureController.text,
+      upcNumber: event.viewModel.upcNumberController.text,
     );
 
     event.viewModel.responseToSaveItem = codeMessage;
     this.pipeOut.send(event.viewModel);
   }
 
-  Future<CodeMessage> _setItemToRepository({required String id, required String description, required String expirationDate, required String measure}) async {
+  Future<CodeMessage> _setItemToRepository({required String id, required String description, required String expirationDate, required String measure, required String upcNumber}) async {
     CodeMessage? codeMessage = _checkIfAllRequiredFieldsAreFilled(description: description, measure: measure);
     if (codeMessage != null) return codeMessage;
 
-    ProductBusinessModel product = ProductBusinessModel(id: id, description: description, expirationDate: expirationDate, measure: measure);
+    ProductBusinessModel product = ProductBusinessModel(id: id, description: description, expirationDate: expirationDate, measure: measure, upcNumber: upcNumber);
     ProductProvider productProvider = ProductProvider();
     if (product.id.isEmpty)
       return productProvider.create(product);

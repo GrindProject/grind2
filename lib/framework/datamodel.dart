@@ -1,7 +1,7 @@
 import 'model.dart';
 
 abstract class DataModel extends Model {
-  final String id;
+  String id = '';
 
   DataModel(this.id);
 

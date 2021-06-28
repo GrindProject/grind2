@@ -1,13 +1,16 @@
 import 'package:automated_inventory/framework/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+// ignore: implementation_imports
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'main_inventory_viewevents.dart';
 import 'main_inventory_viewmodel.dart';
 
+
 class MainInventoryView extends View<MainInventoryViewModel, MainInventoryViewEvents> {
+  bool isSwitched = false;
   MainInventoryView({required MainInventoryViewModel viewModel, required MainInventoryViewEvents viewEvents})
       : super(viewModel: viewModel, viewEvents: viewEvents);
 
@@ -18,11 +21,14 @@ class MainInventoryView extends View<MainInventoryViewModel, MainInventoryViewEv
       appBar: AppBar(
         title: Text('My Inventory'),
         actions: [
-          IconButton(
+
+
+        IconButton(
               icon: Icon(MdiIcons.barcodeScan),
               onPressed: () {
                 /// this.viewEvents.scanItem();
               }),
+
         ],
       ),
       body: ListView.builder(

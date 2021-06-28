@@ -1,4 +1,5 @@
 import 'package:automated_inventory/framework/datamodel.dart';
+import 'package:faunadb_http/query.dart';
 
 class ProductDataModel extends DataModel {
   final String description;
@@ -7,18 +8,17 @@ class ProductDataModel extends DataModel {
 
   final String measure;
 
-  ProductDataModel(String id, {required this.description, required this.expirationDate, required this.measure}) : super(id);
+  final String upcNumber;
+
+  ProductDataModel(String id, {required this.description, required this.expirationDate, required this.measure, required this.upcNumber}) : super(id);
 
   @override
   Map<String, dynamic> toJson() {
     return {
-      'object': {
-        'data': {
           'description': this.description,
           'expirationDate': this.expirationDate,
           'measure': this.measure,
-        }
-      }
+          'upcNumber': this.upcNumber,
     };
   }
 }

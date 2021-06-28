@@ -1,6 +1,9 @@
+
+
 import 'package:automated_inventory/framework/codemessage.dart';
 import 'package:automated_inventory/framework/model.dart';
 import 'package:automated_inventory/framework/viewmodel.dart';
+import 'package:faunadb_http/query.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -11,7 +14,9 @@ class ManageItemViewModel extends ViewModel {
 
   TextEditingController descriptionController = TextEditingController();
   TextEditingController expirationDateController = TextEditingController();
+  //var FutureDate = new DateTime(DateTime.now().year +5, DateTime.now().month, DateTime.now().day);
   TextEditingController measureController = TextEditingController();
+  TextEditingController upcNumberController = TextEditingController();
 
   String screenTitle = "";
 
