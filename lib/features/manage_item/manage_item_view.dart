@@ -39,13 +39,37 @@ class ManageItemView extends View<ManageItemViewModel, ManageItemViewEvents> {
         ],
       ),
       body: Column(children: <Widget>[
+
         Padding(
           padding: EdgeInsets.all(10),
           child: TextField(
-            controller: this.viewModel.descriptionController,
+            controller: this.viewModel.upcNumberController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'UPC Number',
+            ),
+          ),
+        ),
+
+        Padding(
+          padding: EdgeInsets.all(10),
+          child: TextField(
+            controller: this.viewModel.nameController,
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'Description',
+            ),
+          ),
+        ),
+
+
+        Padding(
+          padding: EdgeInsets.all(10),
+          child: TextField(
+            controller: this.viewModel.measureController,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(),
+              labelText: 'Measure',
             ),
           ),
         ),
@@ -61,37 +85,9 @@ class ManageItemView extends View<ManageItemViewModel, ManageItemViewEvents> {
             ),
           ),
         ),
-        Padding(
-          padding: EdgeInsets.all(10),
-          child: TextField(
-            controller: this.viewModel.measureController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'Measure',
-            ),
-          ),
-        ),
-
-        Padding(
-          padding: EdgeInsets.all(10),
-          child: TextField(
-            controller: this.viewModel.upcNumberController,
-            decoration: InputDecoration(
-              border: OutlineInputBorder(),
-              labelText: 'UPC Number',
-            ),
-          ),
-        ),
 
       ]),
-      /*
-      floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
-        onPressed: () {
-          /// this.viewActions.addItem();
-        },
-      ),
-       */
+
     );
   }
 

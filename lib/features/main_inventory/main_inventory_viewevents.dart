@@ -11,33 +11,28 @@ import 'main_inventory_blocevent.dart';
 class MainInventoryViewEvents extends ViewEvents<MainInventoryBloc> {
   MainInventoryViewEvents(MainInventoryBloc bloc) : super(bloc);
 
-  void manageItem(BuildContext context, MainInventoryViewModel viewModel, int itemIndex) {
+  void manageItem(BuildContext context, MainInventoryViewModel viewModel, String inventoryId, String productId) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => ManageItemPresenter.withDefaultConstructors(viewModel.items[itemIndex].id)),
+      MaterialPageRoute(builder: (context) => ManageItemPresenter.withDefaultConstructors(inventoryId, productId)),
     ).then((value) {
       this.refreshScreen(context, viewModel);
     });
-  }
-
-  void addItem(BuildContext context, MainInventoryViewModel viewModel) {
-    Navigator.push(
-      context,
-      // MaterialPageRoute(builder: (context) => ManageItemPresenter.withDefaultConstructors('')),
-
-      MaterialPageRoute(builder: (context) => ScanItemInPresenter.withDefaultConstructors()),
-    ).then((value) {
-      this.refreshScreen(context, viewModel);
-    });
-  }
-
-  void deleteItem(BuildContext context, MainInventoryViewModel viewModel, int index) {
-    MainInventoryBlocEventDeleteItem blocEvent = MainInventoryBlocEventDeleteItem(viewModel, index);
-    this.bloc.pipeIn.send(blocEvent);
   }
 
   void refreshScreen(BuildContext context, MainInventoryViewModel viewModel) {
     MainInventoryBlocEventRefreshData blocEvent = MainInventoryBlocEventRefreshData(viewModel);
     this.bloc.pipeIn.send(blocEvent);
   }
+
+  void addQtyToInventoryItem(BuildContext context, MainInventoryViewModel viewModel, String inventoryItemId) {
+    MainInventoryBlocEventAddQtyToInventoryItem blocEvent = MainInventoryBlocEventAddQtyToInventoryItem(viewModel, inventoryItemId);
+    this.bloc.pipeIn.send(blocEvent);
+  }
+
+  void subtractQtyToInventoryItem(BuildContext context, MainInventoryViewModel viewModel, String inventoryItemId) {
+    MainInventoryBlocEventSubtractQtyToInventoryItem blocEvent = MainInventoryBlocEventSubtractQtyToInventoryItem(viewModel, inventoryItemId);
+    this.bloc.pipeIn.send(blocEvent);
+  }
+
 }

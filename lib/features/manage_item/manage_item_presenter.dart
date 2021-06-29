@@ -13,10 +13,10 @@ class ManageItemPresenter extends Presenter<ManageItemView, ManageItemViewModel,
   ManageItemPresenter(ManageItemViewEvents viewEvents, ManageItemBloc bloc, ManageItemViewModel viewModel)
       : super(viewEvents: viewEvents, bloc: bloc, viewModel: viewModel);
 
-  ManageItemPresenter.withDefaultsViewModelViewActions(ManageItemBloc bloc, String id)
-      : super(viewEvents: ManageItemViewEvents(bloc), bloc: bloc, viewModel: ManageItemViewModel(id));
+  ManageItemPresenter.withDefaultsViewModelViewActions(ManageItemBloc bloc, String inventoryId, String productId)
+      : super(viewEvents: ManageItemViewEvents(bloc), bloc: bloc, viewModel: ManageItemViewModel(inventoryId, productId));
 
-  ManageItemPresenter.withDefaultConstructors(String id) : this.withDefaultsViewModelViewActions(ManageItemBloc(), id);
+  ManageItemPresenter.withDefaultConstructors(String inventoryId, String productId) : this.withDefaultsViewModelViewActions(ManageItemBloc(), inventoryId, productId);
 
   @override
   Widget buildLoadingView(BuildContext context) {

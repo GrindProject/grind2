@@ -8,26 +8,34 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ManageItemViewModel extends ViewModel {
-  final String id;
+  final String inventoryId;
+  final String productId;
 
-  ManageItemViewModel(this.id);
+  ManageItemViewModel(this.inventoryId, this.productId);
 
-  TextEditingController descriptionController = TextEditingController();
-  TextEditingController expirationDateController = TextEditingController();
-  //var FutureDate = new DateTime(DateTime.now().year +5, DateTime.now().month, DateTime.now().day);
+  /// product
+  TextEditingController nameController = TextEditingController();
   TextEditingController measureController = TextEditingController();
   TextEditingController upcNumberController = TextEditingController();
+
+  /// inventory
+  TextEditingController expirationDateController = TextEditingController();
+  int qty =0;
 
   String screenTitle = "";
 
   CodeMessage? responseToSaveItem;
 }
 
+/*
 class ManageItemViewModelItemModel extends Model {
-  final String id;
+  final String productId;
   final String description;
-  final String expirationDate;
   final String measure;
+
+  final String expirationDate;
+
 
   ManageItemViewModelItemModel({required this.id, required this.description, required this.expirationDate, required this.measure});
 }
+*/

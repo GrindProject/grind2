@@ -14,7 +14,6 @@ class ProductDao extends DaoFirebaseDB<ProductDataModel> {
     return ProductDataModel(
       id,
       description: json['description'],
-      expirationDate: json['expirationDate'],
       measure: json['measure'],
       upcNumber: json['upcNumber'],
     );

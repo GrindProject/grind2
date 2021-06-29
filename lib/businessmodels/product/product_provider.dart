@@ -42,7 +42,6 @@ class ProductProvider extends Provider<ProductBusinessModel> {
     return ProductBusinessModel(
       id: dataModel.id,
       description: dataModel.description,
-      expirationDate: dataModel.expirationDate,
       measure: dataModel.measure,
       upcNumber: dataModel.upcNumber,
     );
@@ -52,7 +51,6 @@ class ProductProvider extends Provider<ProductBusinessModel> {
     return ProductDataModel(
       businessModel.id,
       description: businessModel.description,
-      expirationDate: businessModel.expirationDate,
       measure: businessModel.measure,
       upcNumber: businessModel.upcNumber,
     );

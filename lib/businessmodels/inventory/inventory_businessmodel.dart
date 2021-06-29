@@ -6,9 +6,9 @@ class InventoryBusinessModel extends BusinessModel {
 
   final String productId;
 
-  final String expirationDate;
+   String expirationDate;
 
-  final int qty;
+   int qty;
 
 
 

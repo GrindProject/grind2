@@ -6,11 +6,9 @@ class ProductBusinessModel extends BusinessModel {
 
   final String description;
 
-  final String expirationDate;
-
   final String measure;
 
   final String upcNumber;
 
-  ProductBusinessModel({required this.id, required this.description, required this.expirationDate, required this.measure, required this.upcNumber});
+  ProductBusinessModel({required this.id, required this.description, required this.measure, required this.upcNumber});
 }

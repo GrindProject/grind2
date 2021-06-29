@@ -66,13 +66,14 @@ class ScanItemInView extends View<ScanItemInViewModel, ScanItemInViewEvents> {
                               style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 16),
                             ),
                             Text(
-                              'Exp.Date: ' + this.viewModel.inventoryItems[index].expirationDate,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            Text(
                               'Measure: ' + this.viewModel.product!.measure,
                               style: TextStyle(color: Colors.white),
                             ),
+                            Text(
+                              'Exp.Date: ' + this.viewModel.inventoryItems[index].expirationDate,
+                              style: TextStyle(color: Colors.white),
+                            ),
+
                             Text(
                               'Qty: ' + this.viewModel.inventoryItems[index].qty.toString(),
                               style: TextStyle(color: Colors.white),

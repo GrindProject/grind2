@@ -17,15 +17,23 @@ class MainInventoryViewModel extends ViewModel {
 class MainInventoryViewModelItemModel extends Model {
   final String id;
   final String name ;
-  final String expirationDate;
   final String measure;
-  final int qty;
+  final Color color;
+  final List<MainInventoryViewModelSubItemModel> subItems;
 
+  MainInventoryViewModelItemModel(this.id, this.name, this.measure, this.subItems, this.color);
+
+
+}
+
+
+class MainInventoryViewModelSubItemModel extends Model {
+  final String id;
+  final String expirationDate;
+  final int qty;
   final Color color;
 
-  MainInventoryViewModelItemModel(this.id, this.name, this.expirationDate, this.measure, this.color, this.qty);
+  MainInventoryViewModelSubItemModel(this.id, this.expirationDate, this.qty, this.color);
 
-  String toString() {
-    return '$name $expirationDate $measure';
-  }
+
 }

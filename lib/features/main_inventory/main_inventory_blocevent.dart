@@ -13,6 +13,18 @@ class MainInventoryBlocEventOnInitializeView extends MainInventoryBlocEvent {
 
 /// custom events
 
+class MainInventoryBlocEventAddQtyToInventoryItem extends MainInventoryBlocEvent {
+  final String inventoryItemId;
+
+  MainInventoryBlocEventAddQtyToInventoryItem(MainInventoryViewModel viewModel, this.inventoryItemId) : super(viewModel);
+}
+
+class MainInventoryBlocEventSubtractQtyToInventoryItem extends MainInventoryBlocEvent {
+  final String inventoryItemId;
+
+  MainInventoryBlocEventSubtractQtyToInventoryItem(MainInventoryViewModel viewModel, this.inventoryItemId) : super(viewModel);
+}
+
 //class MainInventoryBlocEventAddItem extends MainInventoryBlocEvent {
 //  MainInventoryBlocEventAddItem(MainInventoryViewModel viewModel) : super(viewModel);
 //}
