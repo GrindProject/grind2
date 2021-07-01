@@ -17,7 +17,7 @@ abstract class DaoNutritionix<DM extends DataModel> extends Dao<DM> {
   DM createModelFromJson(String id, Map<String, dynamic> json);
 
   Future<DM?> getFromUPCCode(String upcCode) async {
-    try {
+
       String url = getBaseUrl();
       url += '&upc=' + upcCode;
       http.Response httpResponse = await http.get(Uri.parse(url));
@@ -26,9 +26,7 @@ abstract class DaoNutritionix<DM extends DataModel> extends Dao<DM> {
       } else {
         return null;
       }
-    } catch (error) {
-      return null;
-    }
+
   }
 
   Future<DM?> get(String id) async {

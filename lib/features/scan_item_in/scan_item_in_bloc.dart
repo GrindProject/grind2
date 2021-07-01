@@ -37,8 +37,6 @@ class ScanItemInBloc extends Bloc<ScanItemInViewModel, ScanItemInBlocEvent> {
       InventoryProvider inventoryProvider = InventoryProvider();
       List<InventoryBusinessModel> list = await inventoryProvider.getByProductId(product.id);
 
-      print(list.length.toString());
-
       list.forEach((inventory) {
         event.viewModel.inventoryItems.add(ScanItemInViewModelInventoryModel(
             inventory.productId,

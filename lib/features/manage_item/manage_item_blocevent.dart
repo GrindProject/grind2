@@ -18,6 +18,10 @@ class ManageItemBlocEventSaveItem extends ManageItemBlocEvent {
   ManageItemBlocEventSaveItem(ManageItemViewModel viewModel) : super(viewModel);
 }
 
+class ManageItemBlocEventSearchUPCNumber extends ManageItemBlocEvent {
+  ManageItemBlocEventSearchUPCNumber(ManageItemViewModel viewModel) : super(viewModel);
+}
+
 /*
 class MainInventoryBlocEventDeleteItem  extends MainInventoryBlocEvent {
   MainInventoryBlocEventDeleteItem(MainInventoryViewModel viewModel) : super(viewModel);

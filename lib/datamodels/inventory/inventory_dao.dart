@@ -25,5 +25,4 @@ class InventoryDao extends DaoFirebaseDB<InventoryDataModel> {
     return this.getAllUsingPropertyValue("productId", productId);
   }
 
-
 }

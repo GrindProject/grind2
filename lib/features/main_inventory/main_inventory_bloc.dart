@@ -17,19 +17,11 @@ class MainInventoryBloc
     if (event is MainInventoryBlocEventDeleteItem) _deleteItem(event);
     if (event is MainInventoryBlocEventAddQtyToInventoryItem) _addQtyToInventoryItem(event);
     if (event is MainInventoryBlocEventSubtractQtyToInventoryItem) _subtractQtyToInventoryItem(event);
+    if (event is MainInventoryBlocEventSearchItem) _searchItem(event);
   }
 
   void _onInitializeView(MainInventoryBlocEvent event) {
-    _getItemsFromRepository()
-        .then((List<MainInventoryViewModelItemModel> items) {
-      event.viewModel.cachedItems.clear();
-      event.viewModel.cachedItems.addAll(items);
-
-      event.viewModel.items.clear();
-      event.viewModel.items.addAll(event.viewModel.cachedItems);
-
-      this.pipeOut.send(event.viewModel);
-    });
+    _refreshViewModelList(event.viewModel);
   }
 
   void _refreshData(MainInventoryBlocEventRefreshData event) {
@@ -56,8 +48,7 @@ class MainInventoryBloc
       viewModel.cachedItems.clear();
       viewModel.cachedItems.addAll(items);
 
-      viewModel.items.clear();
-      viewModel.items.addAll(viewModel.cachedItems);
+      _applySearchArgumentToList(viewModel);
 
       this.pipeOut.send(viewModel);
     });
@@ -79,6 +70,7 @@ class MainInventoryBloc
         product.id,
         product.description,
         product.measure,
+        product.upcNumber,
         subItems,
         Colors.blue,
       ));
@@ -123,6 +115,31 @@ class MainInventoryBloc
     }
 
     _refreshViewModelList(event.viewModel);
+  }
+
+  void _searchItem(MainInventoryBlocEventSearchItem event) {
+    _applySearchArgumentToList(event.viewModel);
+    this.pipeOut.send(event.viewModel);
+  }
+
+  void _applySearchArgumentToList(MainInventoryViewModel viewModel) {
+    String searchInput = viewModel.searchController.text.toLowerCase();
+
+    viewModel.items.clear();
+    for(var item in viewModel.cachedItems) {
+      if (
+      (searchInput.isEmpty)
+          || (item.name.toLowerCase().startsWith(searchInput))
+          || (item.upcNumber.toLowerCase().startsWith(searchInput))
+      ) {
+        viewModel.items.add(item);
+      }
+    }
+
+    viewModel.items.sort( (first,second) {
+      return first.name.compareTo(second.name);
+    });
+
   }
 
 }

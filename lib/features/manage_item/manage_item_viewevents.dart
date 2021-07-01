@@ -12,6 +12,11 @@ class ManageItemViewEvents extends ViewEvents<ManageItemBloc> {
     this.bloc.pipeIn.send(blocEvent);
   }
 
+  void searchUPCNumber(ManageItemViewModel viewModel) {
+    ManageItemBlocEventSearchUPCNumber blocEvent = ManageItemBlocEventSearchUPCNumber(viewModel);
+    this.bloc.pipeIn.send(blocEvent);
+  }
+
 /*
   void deleteItemToList(MainInventoryViewModel viewModel) {
     MainInventoryBlocEventDeleteItem blocEvent = MainInventoryBlocEventDeleteItem(viewModel);

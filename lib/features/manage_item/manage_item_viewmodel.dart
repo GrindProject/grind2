@@ -10,8 +10,9 @@ import 'package:flutter/material.dart';
 class ManageItemViewModel extends ViewModel {
   final String inventoryId;
   final String productId;
+  final String initialUpcNumber;
 
-  ManageItemViewModel(this.inventoryId, this.productId);
+  ManageItemViewModel(this.inventoryId, this.productId, this.initialUpcNumber);
 
   /// product
   TextEditingController nameController = TextEditingController();
@@ -25,6 +26,8 @@ class ManageItemViewModel extends ViewModel {
   String screenTitle = "";
 
   CodeMessage? responseToSaveItem;
+
+  CodeMessage? responseToSearchItem;
 }
 
 /*

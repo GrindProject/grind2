@@ -25,6 +25,12 @@ class MainInventoryBlocEventSubtractQtyToInventoryItem extends MainInventoryBloc
   MainInventoryBlocEventSubtractQtyToInventoryItem(MainInventoryViewModel viewModel, this.inventoryItemId) : super(viewModel);
 }
 
+class MainInventoryBlocEventSearchItem extends MainInventoryBlocEvent {
+  MainInventoryBlocEventSearchItem(MainInventoryViewModel viewModel) : super(viewModel);
+}
+
+
+
 //class MainInventoryBlocEventAddItem extends MainInventoryBlocEvent {
 //  MainInventoryBlocEventAddItem(MainInventoryViewModel viewModel) : super(viewModel);
 //}

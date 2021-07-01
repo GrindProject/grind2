@@ -22,24 +22,36 @@ class MainInventoryView extends View<MainInventoryViewModel, MainInventoryViewEv
     return Scaffold(
       appBar: AppBar(
         title: Text('My Inventory'),
-        actions: [
-
-
-        IconButton(
-              icon: Icon(MdiIcons.barcodeScan),
-              onPressed: () {
-                /// this.viewEvents.scanItem();
-              }),
-
-        ],
       ),
-      body: ListView.builder(
-        physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
-        padding: const EdgeInsets.all(4),
-        itemCount: this.viewModel.items.length,
-        itemBuilder: (BuildContext context, int index) {
-          return ItemCardView(viewModel: this.viewModel, viewEvents: this.viewEvents, item: this.viewModel.items[index]);
-        },
+      body:  Column(
+        children: [
+
+          Padding(
+            padding: EdgeInsets.all(10),
+            child: TextField(
+              controller: this.viewModel.searchController,
+              decoration: InputDecoration(
+                border: OutlineInputBorder(),
+                labelText: 'Search',
+                suffixIcon: Icon(Icons.search),
+              ),
+              onChanged: (value) {
+                this.viewEvents.searchItem(context, this.viewModel);
+              },
+            ),
+          ),
+
+          Expanded(
+            child: ListView.builder(
+              physics: const BouncingScrollPhysics(parent: AlwaysScrollableScrollPhysics()),
+              padding: const EdgeInsets.all(4),
+              itemCount: this.viewModel.items.length,
+              itemBuilder: (BuildContext context, int index) {
+                return ItemCardView(viewModel: this.viewModel, viewEvents: this.viewEvents, item: this.viewModel.items[index]);
+              },
+            ),
+          ),
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
@@ -166,7 +178,7 @@ class ItemCardView extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
       ),
       subtitle: Text(
-        this.item.measure,
+        this.item.measure + '   UPC:' + this.item.upcNumber,
         style: const TextStyle(fontSize: 12),
         overflow: TextOverflow.ellipsis,
       ),
@@ -176,7 +188,6 @@ class ItemCardView extends StatelessWidget {
 
   List<Widget> _getSubItems(BuildContext context) {
     List<Widget> list = List.empty(growable: true);
-    print("_getSubItems " + this.item.subItems.length.toString());
     this.item.subItems.forEach((subitem) {
       list.add(
           Card(

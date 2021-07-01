@@ -11,6 +11,8 @@ class MainInventoryViewModel extends ViewModel {
   final List<MainInventoryViewModelItemModel> cachedItems = List.empty(growable: true);
   final List<MainInventoryViewModelItemModel> items = List.empty(growable: true);
 
+  TextEditingController searchController = TextEditingController();
+
   CodeMessage? responseToDeleteItem;
 }
 
@@ -18,10 +20,11 @@ class MainInventoryViewModelItemModel extends Model {
   final String id;
   final String name ;
   final String measure;
+  final String upcNumber;
   final Color color;
   final List<MainInventoryViewModelSubItemModel> subItems;
 
-  MainInventoryViewModelItemModel(this.id, this.name, this.measure, this.subItems, this.color);
+  MainInventoryViewModelItemModel(this.id, this.name, this.measure, this.upcNumber, this.subItems, this.color);
 
 
 }

@@ -1,6 +1,7 @@
 import 'package:automated_inventory/framework/view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'manage_item_viewevents.dart';
 import 'manage_item_viewmodel.dart';
@@ -25,7 +26,7 @@ class ManageItemView extends View<ManageItemViewModel, ManageItemViewEvents> {
   @override
   Widget build(BuildContext context) {
     _checkIfThereIsResponseForSavingItem(context);
-
+    _checkIfThereIsResponseForSearchItem(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -47,6 +48,14 @@ class ManageItemView extends View<ManageItemViewModel, ManageItemViewEvents> {
             decoration: InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'UPC Number',
+              suffixIcon: IconButton(
+                icon: Icon(MdiIcons.searchWeb),
+                onPressed: () {
+                  this.viewEvents.searchUPCNumber(this.viewModel);
+                },
+
+              ),
+
             ),
           ),
         ),
@@ -102,6 +111,17 @@ class ManageItemView extends View<ManageItemViewModel, ManageItemViewEvents> {
     }
   }
 
+  void _checkIfThereIsResponseForSearchItem(BuildContext context) {
+    if (this.viewModel.responseToSearchItem != null) {
+      Future.delayed(Duration(milliseconds: 300), () {
+        if (this.viewModel.responseToSearchItem!.code == 1)
+          _showAlertDialogItemSearchOK(context);
+        else
+          _showAlertDialogItemSearchError(context, this.viewModel.responseToSearchItem!.message);
+      });
+    }
+  }
+
   void _showAlertDialogItemSavedOK(BuildContext context) {
     showDialog(
       context: context,
@@ -140,4 +160,44 @@ class ManageItemView extends View<ManageItemViewModel, ManageItemViewEvents> {
       ),
     );
   }
+
+  void _showAlertDialogItemSearchOK(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Success!'),
+        content: Text('1 item was found! Description and Measure were updated'),
+        actions: <Widget>[
+          new TextButton(
+            onPressed: () {
+              this.viewModel.responseToSearchItem = null;
+              Navigator.of(context, rootNavigator: true).pop();
+            },
+            child: new Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _showAlertDialogItemSearchError(BuildContext context, String errorMessage) {
+    showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Error!'),
+        content: Text(errorMessage),
+        actions: <Widget>[
+          new TextButton(
+            onPressed: () {
+              this.viewModel.responseToSearchItem = null;
+              Navigator.of(context, rootNavigator: true).pop();
+            },
+            child: new Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
+
+
 }

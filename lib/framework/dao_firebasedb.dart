@@ -81,15 +81,11 @@ abstract class DaoFirebaseDB<DM extends DataModel> extends Dao<DM> {
 
   Future<List<DM>>  getAllUsingPropertyValue(String propertyName, String propertyValue) async {
 
-    print(propertyName + " = " + propertyValue);
-
     List<DM> list = List.empty(growable: true);
     String collectionPath = _getCollectionPath();
-    print(collectionPath);
     if (collectionPath.isEmpty) return list;
     var querySnapshot = await FirebaseFirestore.instance.collection(collectionPath).where(propertyName, isEqualTo: propertyValue).get();
 
-    print(querySnapshot.docs.length.toString());
 
     querySnapshot.docs.forEach((doc) {
 
