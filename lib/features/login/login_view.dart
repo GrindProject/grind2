@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:flutter_signin_button/flutter_signin_button.dart';
+
 
 import 'login_viewevents.dart';
 import 'login_viewmodel.dart';
@@ -28,19 +30,43 @@ class LoginView extends View<LoginViewModel, LoginViewEvents> {
         child: Column(
           children: [
 
-            /// login/out button
+          /*  /// login/out button
             ElevatedButton(
               onPressed: () {
                 this.viewEvents.startLogin(context, viewModel);
               },
-              child: Text("Login"),
+              child: Text("Login GMail"),
+            ),
+
+
+
+            ElevatedButton(
+              onPressed: () {
+
+              },
+              child: Text("Login FaceBook"),
+            ), */
+
+            SignInButton(
+              Buttons.Google,
+              text: "Sign up with Google",
+              onPressed: () {
+                this.viewEvents.startLogin(context, viewModel);
+              },
+            ),
+
+            SignInButton(
+              Buttons.FacebookNew,
+              text: "Sign up with FaceBook",
+              onPressed: () {
+                this.viewEvents.startLoginWithFacebook(context, viewModel);
+              },
             ),
 
             /// user's email
-            (this.viewModel.userEmail != null)
-            ? Text(this.viewModel.userEmail!)
-            : SizedBox.shrink(),
-
+              (this.viewModel.userEmail != null)
+                ? Text(this.viewModel.userEmail!)
+                : SizedBox.shrink(),
 
 
           ],

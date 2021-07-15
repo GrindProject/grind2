@@ -14,6 +14,7 @@ class LoginBloc extends Bloc<LoginViewModel, LoginBlocEvent> {
   void onReceiveEvent(LoginBlocEvent event) {
     if (event is LoginBlocEventOnInitializeView) _onInitializeView(event);
     if (event is LoginBlocEventSignIn) _onSignIn(event);
+    if (event is LoginBlocEventSignInWithFacebook) _onSignInWithFacebook(event);
     if (event is LoginBlocEventSignOut) _onSignOut(event);
   }
 
@@ -65,6 +66,8 @@ class LoginBloc extends Bloc<LoginViewModel, LoginBlocEvent> {
     return await FirebaseAuth.instance.signInWithCredential(credential);
 
   }
+
+  void _onSignInWithFacebook(LoginBlocEventSignInWithFacebook event) {}
 
 
 

@@ -16,6 +16,11 @@ class LoginViewEvents extends ViewEvents<LoginBloc> {
     this.bloc.pipeIn.send(blocEvent);
   }
 
+  void startLoginWithFacebook(BuildContext context, LoginViewModel viewModel) {
+    LoginBlocEventSignInWithFacebook blocEvent = LoginBlocEventSignInWithFacebook(viewModel);
+    this.bloc.pipeIn.send(blocEvent);
+  }
+
   void navigateToTheMainInventoryScreen(BuildContext context, LoginViewModel viewModel) {
     Navigator.push(
       context,

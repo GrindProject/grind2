@@ -17,6 +17,10 @@ class LoginBlocEventSignIn extends LoginBlocEvent {
   LoginBlocEventSignIn(LoginViewModel viewModel) : super(viewModel);
 }
 
+class LoginBlocEventSignInWithFacebook extends LoginBlocEvent {
+  LoginBlocEventSignInWithFacebook(LoginViewModel viewModel) : super(viewModel);
+}
+
 class LoginBlocEventSignOut extends LoginBlocEvent {
   LoginBlocEventSignOut(LoginViewModel viewModel) : super(viewModel);
 }
