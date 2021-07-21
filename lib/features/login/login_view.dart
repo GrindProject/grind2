@@ -23,14 +23,22 @@ class LoginView extends View<LoginViewModel, LoginViewEvents> {
   Widget build(BuildContext context) {
     _checkIfThereIsResponseForSigningIn(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Login View'),
-      ),
+
+      backgroundColor: Colors.blue,
+
       body: Center(
         child: Column(
+            mainAxisAlignment: MainAxisAlignment.center, //Center Column contents vertically,
+            crossAxisAlignment: CrossAxisAlignment.center, //Center Column contents horizontally,
           children: [
+            Text('AITS', style: new TextStyle(fontSize: 96, color: Colors.white)),
+              Image.asset('assets/images/AITSLogo.PNG'),
+            Text('Automated Inventory Tracking System', style: new TextStyle(fontSize: 20, color: Colors.white)),
+            Text(''),
+            Text(''),
+            Text(''),
 
-          /*  /// login/out button
+            /*  /// login/out button
             ElevatedButton(
               onPressed: () {
                 this.viewEvents.startLogin(context, viewModel);
@@ -55,13 +63,16 @@ class LoginView extends View<LoginViewModel, LoginViewEvents> {
               },
             ),
 
+
             SignInButton(
-              Buttons.FacebookNew,
+              Buttons.Facebook,
               text: "Sign up with FaceBook",
               onPressed: () {
                 this.viewEvents.startLoginWithFacebook(context, viewModel);
               },
             ),
+
+
 
             /// user's email
               (this.viewModel.userEmail != null)

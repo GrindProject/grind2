@@ -28,6 +28,7 @@ class ManageItemView extends View<ManageItemViewModel, ManageItemViewEvents> {
     _checkIfThereIsResponseForSavingItem(context);
     _checkIfThereIsResponseForSearchItem(context);
     return Scaffold(
+      backgroundColor: Colors.blue,
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(this.viewModel.screenTitle),
@@ -46,6 +47,7 @@ class ManageItemView extends View<ManageItemViewModel, ManageItemViewEvents> {
           child: TextField(
             controller: this.viewModel.upcNumberController,
             decoration: InputDecoration(
+              fillColor: Colors.white, filled: true,
               border: OutlineInputBorder(),
               labelText: 'UPC Number',
               suffixIcon: IconButton(
@@ -65,6 +67,7 @@ class ManageItemView extends View<ManageItemViewModel, ManageItemViewEvents> {
           child: TextField(
             controller: this.viewModel.nameController,
             decoration: InputDecoration(
+              fillColor: Colors.white, filled: true,
               border: OutlineInputBorder(),
               labelText: 'Description',
             ),
@@ -77,6 +80,7 @@ class ManageItemView extends View<ManageItemViewModel, ManageItemViewEvents> {
           child: TextField(
             controller: this.viewModel.measureController,
             decoration: InputDecoration(
+              fillColor: Colors.white, filled: true,
               border: OutlineInputBorder(),
               labelText: 'Measure',
             ),
@@ -89,6 +93,7 @@ class ManageItemView extends View<ManageItemViewModel, ManageItemViewEvents> {
             controller: this.viewModel.expirationDateController,
             onTap: () {}, // showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime.now(), lastDate: DateTime.now()),
             decoration: InputDecoration(
+              fillColor: Colors.white, filled: true,
               border: OutlineInputBorder(),
               labelText: 'Expiration Date',
             ),

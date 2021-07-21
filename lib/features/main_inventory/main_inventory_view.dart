@@ -20,6 +20,7 @@ class MainInventoryView extends View<MainInventoryViewModel, MainInventoryViewEv
 
     _checkIfThereIsResponseForSavingItem(context);
     return Scaffold(
+      backgroundColor: Colors.blue,
       appBar: AppBar(
         title: Text('My Inventory'),
       ),
@@ -29,9 +30,11 @@ class MainInventoryView extends View<MainInventoryViewModel, MainInventoryViewEv
           Padding(
             padding: EdgeInsets.all(10),
             child: TextField(
+
               controller: this.viewModel.searchController,
               decoration: InputDecoration(
-                border: OutlineInputBorder(),
+                fillColor: Colors.white, filled: true,
+                border: OutlineInputBorder(borderSide: new BorderSide(width: 16.0)),
                 labelText: 'Search',
                 suffixIcon: Icon(Icons.search),
               ),
@@ -54,7 +57,8 @@ class MainInventoryView extends View<MainInventoryViewModel, MainInventoryViewEv
         ],
       ),
       floatingActionButton: FloatingActionButton(
-        child: Icon(Icons.add),
+        backgroundColor: Colors.white,
+        child: Text('+',style: new TextStyle(fontSize: 32, color: Colors.blue, fontWeight: FontWeight.bold)),
         onPressed: () {
           this.viewEvents.manageItem(context, this.viewModel, '', '');
         },

@@ -29,7 +29,6 @@ dependencies:
   firebase_auth: ^1.4.1
   cloud_firestore: ^2.2.2
   google_sign_in: ^5.0.4
-  flutter_facebook_auth: ^3.5.0
   uuid: ^3.0.3
   http: ^0.13.3
   expandable: ^5.0.1
@@ -52,6 +51,8 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  assets:
+    - assets/images/
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
