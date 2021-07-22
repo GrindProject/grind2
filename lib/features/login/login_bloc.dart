@@ -4,8 +4,10 @@ import 'package:automated_inventory/features/login/login_blocevent.dart';
 import 'package:automated_inventory/features/login/login_viewmodel.dart';
 import 'package:automated_inventory/framework/bloc.dart';
 import 'package:automated_inventory/framework/codemessage.dart';
+import 'package:automated_inventory/modules/user_information.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginBloc extends Bloc<LoginViewModel, LoginBlocEvent> {
@@ -52,6 +54,7 @@ class LoginBloc extends Bloc<LoginViewModel, LoginBlocEvent> {
     final GoogleSignInAccount? googleUser =  signInSilently ? await GoogleSignIn().signInSilently() : await GoogleSignIn().signIn();
     if (googleUser == null) return null;
 
+
     // Obtain the auth details from the request
     final GoogleSignInAuthentication googleAuth = await googleUser
         .authentication;
@@ -62,12 +65,28 @@ class LoginBloc extends Bloc<LoginViewModel, LoginBlocEvent> {
       idToken: googleAuth.idToken,
     );
 
+    UserInformation.userName = googleUser.displayName ?? '';
+    UserInformation.userPhotoUrl = googleUser.photoUrl ?? '';
+
     // Once signed in, return the UserCredential
     return await FirebaseAuth.instance.signInWithCredential(credential);
 
   }
 
-  void _onSignInWithFacebook(LoginBlocEventSignInWithFacebook event) {}
+  Future<UserCredential?> _onSignInWithFacebook(LoginBlocEventSignInWithFacebook event) async {
+    // Trigger the sign-in flow
+    LoginResult result = await FacebookAuth.instance.login();
+    if (result.accessToken == null) return null;
+
+    // Create a credential from the access token
+    final facebookAuthCredential = FacebookAuthProvider.credential(result.accessToken!.token);
+
+    UserInformation.userName = result.accessToken!.userId;
+    UserInformation.userPhotoUrl = '';
+
+    // Once signed in, return the UserCredential
+    return await FirebaseAuth.instance.signInWithCredential(facebookAuthCredential);
+  }
 
 
 

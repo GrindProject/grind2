@@ -29,6 +29,12 @@ class MainInventoryBlocEventSearchItem extends MainInventoryBlocEvent {
   MainInventoryBlocEventSearchItem(MainInventoryViewModel viewModel) : super(viewModel);
 }
 
+class MainInventoryBlocEventOpenCameraToScan extends MainInventoryBlocEvent {
+  MainInventoryBlocEventOpenCameraToScan(MainInventoryViewModel viewModel) : super(viewModel);
+}
+
+
+
 
 
 //class MainInventoryBlocEventAddItem extends MainInventoryBlocEvent {

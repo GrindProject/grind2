@@ -91,7 +91,9 @@ class ManageItemView extends View<ManageItemViewModel, ManageItemViewEvents> {
           padding: EdgeInsets.all(10),
           child: TextField(
             controller: this.viewModel.expirationDateController,
-            onTap: () {}, // showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime.now(), lastDate: DateTime.now()),
+            onTap: () {
+              _pickDate(context);
+            },
             decoration: InputDecoration(
               fillColor: Colors.white, filled: true,
               border: OutlineInputBorder(),
@@ -204,5 +206,10 @@ class ManageItemView extends View<ManageItemViewModel, ManageItemViewEvents> {
     );
   }
 
-
+  void _pickDate(BuildContext context) async {
+    DateTime? date = await showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime.now(), lastDate: DateTime.now().add(Duration(days: 9999)),);
+    if (date != null) {
+      this.viewModel.expirationDateController.text = date.year.toString() + "-" + date.month.toString()+ "-" + date.day.toString();
+    }
+  }
 }

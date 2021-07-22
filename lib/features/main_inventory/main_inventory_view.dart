@@ -19,10 +19,30 @@ class MainInventoryView extends View<MainInventoryViewModel, MainInventoryViewEv
   Widget build(BuildContext context) {
 
     _checkIfThereIsResponseForSavingItem(context);
+    _checkIfItNeedsToPromptUserToAddNewItem(context);
     return Scaffold(
       backgroundColor: Colors.blue,
       appBar: AppBar(
-        title: Text('My Inventory'),
+        leadingWidth: 25,
+        title: Row(
+
+          children: [
+
+            Padding(
+              padding: const EdgeInsets.only(right: 8.0),
+              child: CircleAvatar(
+                backgroundImage: NetworkImage(this.viewModel.userPhotoUrl),
+              ),
+            ),
+            Text(this.viewModel.screenTitle),
+          ],
+        ),
+        actions: [
+          IconButton(onPressed: () {
+            this.viewEvents.openCameraToScan(context, this.viewModel);
+          }, icon: Icon(MdiIcons.barcodeScan))
+        ],
+
       ),
       body:  Column(
         children: [
@@ -77,6 +97,16 @@ class MainInventoryView extends View<MainInventoryViewModel, MainInventoryViewEv
     }
   }
 
+  void _checkIfItNeedsToPromptUserToAddNewItem(BuildContext context) {
+    if (this.viewModel.promptDialogToUserAskingToAddNewItem) {
+      Future.delayed(Duration(milliseconds: 300), () {
+          _showAlertDialogAskToAddNewItem(context);
+      });
+    }
+  }
+
+
+
   void _showAlertDialogItemDeletedOK(BuildContext context) {
     showDialog(
       context: context,
@@ -114,6 +144,35 @@ class MainInventoryView extends View<MainInventoryViewModel, MainInventoryViewEv
       ),
     );
   }
+
+  void _showAlertDialogAskToAddNewItem(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => new AlertDialog(
+        title: new Text('Add New Item?'),
+        content: Text('There is no item with this UPC number. Would you like to add a new item?'),
+        actions: <Widget>[
+          new TextButton(
+            onPressed: () {
+              this.viewModel.promptDialogToUserAskingToAddNewItem = false;
+              Navigator.of(context, rootNavigator: true).pop();
+              this.viewEvents.manageItem(context, this.viewModel, '', '');
+            },
+            child: new Text('YES'),
+          ),
+          new TextButton(
+            onPressed: () {
+              this.viewModel.promptDialogToUserAskingToAddNewItem = false;
+              Navigator.of(context, rootNavigator: true).pop();
+            },
+            child: new Text('NO'),
+          ),
+
+        ],
+      ),
+    );
+  }
+
 }
 
 class ItemCardView extends StatelessWidget {

@@ -3,7 +3,7 @@ import 'package:automated_inventory/features/main_inventory/main_inventory_viewm
 import 'package:automated_inventory/features/manage_item/manage_item_presenter.dart';
 import 'package:automated_inventory/features/scan_item_in/scan_item_in_presenter.dart';
 import 'package:automated_inventory/framework/viewevents.dart';
-import 'package:automated_inventory/modules/upc_validation.dart';
+import 'package:automated_inventory/modules/barcode_validation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -16,9 +16,9 @@ class MainInventoryViewEvents extends ViewEvents<MainInventoryBloc> {
 
     String initialUpcNumber = '';
     if (inventoryId.isEmpty && productId.isEmpty) {
-      UPCValidation upcValidation = UPCValidation(viewModel.searchController.text);
-      if (upcValidation.isUPCNumberValid()) {
-        initialUpcNumber = upcValidation.upcNumber;
+      BarcodeValidation upcValidation = BarcodeValidation(viewModel.searchController.text);
+      if (upcValidation.isValidNumber()) {
+        initialUpcNumber = upcValidation.barcodeNumber;
       }
     }
 
@@ -47,6 +47,11 @@ class MainInventoryViewEvents extends ViewEvents<MainInventoryBloc> {
 
   void searchItem(BuildContext context, MainInventoryViewModel viewModel) {
     MainInventoryBlocEventSearchItem blocEvent = MainInventoryBlocEventSearchItem(viewModel);
+    this.bloc.pipeIn.send(blocEvent);
+  }
+
+  void openCameraToScan(BuildContext context, MainInventoryViewModel viewModel) {
+    MainInventoryBlocEventOpenCameraToScan blocEvent = MainInventoryBlocEventOpenCameraToScan(viewModel);
     this.bloc.pipeIn.send(blocEvent);
   }
 

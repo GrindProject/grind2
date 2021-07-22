@@ -6,7 +6,10 @@ import 'package:automated_inventory/features/main_inventory/main_inventory_bloce
 import 'package:automated_inventory/features/main_inventory/main_inventory_viewmodel.dart';
 import 'package:automated_inventory/framework/bloc.dart';
 import 'package:automated_inventory/framework/codemessage.dart';
+import 'package:automated_inventory/modules/barcode_validation.dart';
+import 'package:automated_inventory/modules/user_information.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 
 class MainInventoryBloc
     extends Bloc<MainInventoryViewModel, MainInventoryBlocEvent> {
@@ -18,9 +21,11 @@ class MainInventoryBloc
     if (event is MainInventoryBlocEventAddQtyToInventoryItem) _addQtyToInventoryItem(event);
     if (event is MainInventoryBlocEventSubtractQtyToInventoryItem) _subtractQtyToInventoryItem(event);
     if (event is MainInventoryBlocEventSearchItem) _searchItem(event);
+    if (event is MainInventoryBlocEventOpenCameraToScan) _openCameraToScan(event);
   }
 
   void _onInitializeView(MainInventoryBlocEvent event) {
+    _getUserInformation(event.viewModel);
     _refreshViewModelList(event.viewModel);
   }
 
@@ -40,6 +45,16 @@ class MainInventoryBloc
       event.viewModel.responseToDeleteItem = codeMessage;
       this.pipeOut.send(event.viewModel);
     }
+  }
+
+  void _getUserInformation(MainInventoryViewModel viewModel) {
+    if (UserInformation.userName.isEmpty) {
+      viewModel.screenTitle = 'My Inventory';
+    } else {
+      var names = UserInformation.userName.split(" ");
+      viewModel.screenTitle =  names[0] + '\'s Inventory';
+    }
+    viewModel.userPhotoUrl = UserInformation.userPhotoUrl;
   }
 
   void _refreshViewModelList(MainInventoryViewModel viewModel) {
@@ -139,6 +154,36 @@ class MainInventoryBloc
     viewModel.items.sort( (first,second) {
       return first.name.compareTo(second.name);
     });
+
+
+
+
+  }
+
+  void _openCameraToScan(MainInventoryBlocEventOpenCameraToScan event) async {
+    var barcodeScanRes = await FlutterBarcodeScanner.scanBarcode(
+        '#ff6666', 'Cancel', true, ScanMode.BARCODE);
+
+    bool userHasCanceled = (barcodeScanRes == '-1');
+    if (userHasCanceled) {
+      event.viewModel.searchController.text = '';
+      _applySearchArgumentToList(event.viewModel);
+      this.pipeOut.send(event.viewModel);
+    }
+    else {
+      event.viewModel.searchController.text = barcodeScanRes;
+      _applySearchArgumentToList(event.viewModel);
+      if (event.viewModel.items.isEmpty) {
+        if (BarcodeValidation(barcodeScanRes).isValidNumber()) {
+          event.viewModel.promptDialogToUserAskingToAddNewItem = true;
+        }
+      }
+      this.pipeOut.send(event.viewModel);
+    }
+
+
+
+
 
   }
 

@@ -6,7 +6,7 @@ import 'package:automated_inventory/businessmodels/product/product_businessmodel
 import 'package:automated_inventory/businessmodels/product/product_provider.dart';
 import 'package:automated_inventory/framework/bloc.dart';
 import 'package:automated_inventory/framework/codemessage.dart';
-import 'package:automated_inventory/modules/upc_validation.dart';
+import 'package:automated_inventory/modules/barcode_validation.dart';
 import 'package:uuid/uuid.dart' as uuid;
 import 'manage_item_blocevent.dart';
 import 'manage_item_viewmodel.dart';
@@ -117,8 +117,8 @@ class ManageItemBloc extends Bloc<ManageItemViewModel, ManageItemBlocEvent> {
     if (productDescription.isEmpty) return CodeMessage(400, "Description is Required!");
     if (productMeasure.isEmpty) return CodeMessage(400, "Measure is Required!");
     if (productUpcNumber.isNotEmpty) {
-      UPCValidation upcValidation = UPCValidation(productUpcNumber);
-      if (!upcValidation.isUPCNumberValid()) {
+      BarcodeValidation upcValidation = BarcodeValidation(productUpcNumber);
+      if (!upcValidation.isValidNumber()) {
         return CodeMessage(400, "UPC Number is not Valid!");
       }
 

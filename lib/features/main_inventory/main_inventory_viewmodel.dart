@@ -10,8 +10,10 @@ import 'package:intl/intl.dart';
 class MainInventoryViewModel extends ViewModel {
   final List<MainInventoryViewModelItemModel> cachedItems = List.empty(growable: true);
   final List<MainInventoryViewModelItemModel> items = List.empty(growable: true);
-
+  bool promptDialogToUserAskingToAddNewItem = false;
   TextEditingController searchController = TextEditingController();
+  String screenTitle = '';
+  String userPhotoUrl = '';
 
   CodeMessage? responseToDeleteItem;
 }
